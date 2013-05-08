@@ -3,6 +3,19 @@ collective.js.jQueryUIDialog
 
 Overlay replacement for Plone. Based on jQueryUI dialogs.
 
+Installation
+----------------------------
+
+You can simply clone the repo into a directory in the src folder of your buildout.
+
+`git clone git://github.com/SteffenKockel/collective.js.jQueryUIDialog.git collective.js.jqueruidialog`
+
+After that is done, add the extension under *buildout*, *zcml* and finally under *src* (see example syntax) to your `buildout.cfg`. 
+
+
+Usage
+----------------------------
+
 To register a specific view, use a snippet like this in your JS file
 
 `$.extend( $.fn._dialog_configs, {     
