@@ -18,15 +18,30 @@ Usage
 
 To register a specific view, use a snippet like this in your JS file
 
-`$.extend( $.fn._dialog_configs, {     
-			"view": {    
-			tabs:false,    
-			modal:true,    
-		}}`
+    $.extend( $.fn._dialog_configs, {
+			"view": { 
+			tabs:false, 
+			modal:true, 
+		},
+		
+			"edit": {
+			tabs:false,
+			modal:true,
+			nextViewAfterNoForm: "view"
+			},
+		
+		}
 
 To enable the dialog function for a link, use the following code.
 
-`$(".myLink").unbind().click(function(e) {    
-    $.fn.Dialog()    
-});`  
+    $(".myLink").unbind().click(function(e) {
+        $.fn.Dialog(this)
+    });
 
+
+To enable the dialog functionality for a link and a specific view configuration, use this method.
+
+    $(".myEditLink").unbind().click(function(e) {
+        $.fn.Dialog(this, "edit")
+    });
+    
