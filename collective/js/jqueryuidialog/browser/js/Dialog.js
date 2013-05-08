@@ -93,8 +93,10 @@ if(jQuery) (function($) {
     				// get selector (id)
 					if (ctx.id) {
 						s = 'dialog-'+ctx.id 
-						if (c["IdPlusTimestamp"]==true)
+						if (c["IdPlusTimestamp"]==true) {
 							s = s+"-"+(new Date).getTime()
+						}
+							
 					} else {
 						// This is weird and costly. Sometimes it fails to work.
 						// make shure, you work with ids on links 
