@@ -121,6 +121,7 @@ if(jQuery) (function($) {
 			
 			function unblock(){
 				$.fn.unblock_dialog(s)
+				return true;
 			};
 			
 			function save_button(view, s, c) {
@@ -133,6 +134,7 @@ if(jQuery) (function($) {
 					// reload save result
 					load($form.attr("action")+"?"+form, view, s, c);
 					});
+				return true;
 			};
 			
 			function cancel_button(s) {
@@ -140,16 +142,17 @@ if(jQuery) (function($) {
 				e.preventDefault();
 				D.dialog("close");
 				});
+				return true;
 			};
 
 			function load(url,view,s,c) {
 				block();
-				/* Debug 
+				/* Debug*/ 
 				console.log("context:",url);
 				console.log("view:",view);
 				console.log("selector", s);
 				console.log("config", c);
-				*/
+				
 				
 				// ajax (w/o menu!)
 				if (c['ajaxLoad']==true) { url = url+"?ajax_load="+(new Date()).getTime() }
@@ -231,7 +234,8 @@ if(jQuery) (function($) {
 								$ac.find('#plone-contentmenu-'+v).attr("id", s+"-plone-contentmenu-"+v);
 							});
 							
-							$('span#ui-dialog-title-'+s).empty().append($ac);
+							D.dialog("option","title", $ac);
+							
 							
 							// if we have actions (mostly we do), prepare the links to act 
 							// properly.
@@ -254,14 +258,11 @@ if(jQuery) (function($) {
 							}
 						} else {
 						
-						if (c["menu"]==false && ["preserveMenu"]==false) {
+						if (c["menu"]==false && c["preserveMenu"]==false) {
 							// no menu - we take the title and put it into the dialog title
-							$('span#ui-dialog-title-'+s).empty().append(
-								dom.find('.documentFirstHeading').remove()
-								);
-							}
-									
-						
+							var T = dom.find(".documentFirstHeading").remove();
+							D.dialog("option", "title", T.text());
+							}						
 						}
 						
 						// replace content
@@ -280,9 +281,10 @@ if(jQuery) (function($) {
 							 * important for the calendar and some other widgets
 							 * that use JS for input preparation.
 							 */
-							dom.filter('script').each( function() { 
+							 dom.filter('script').each( function() { 
 								$.globalEval(this.text || this.textContent || this.innerHTML || ''); 
-							});
+							 });
+							
 						}
 						
 						// enable tabs
@@ -292,20 +294,17 @@ if(jQuery) (function($) {
 						//if (c["calendar"]=!false){ $.fn.dialog_calendar(s) }
 						
 						if (c["wysiwyg"]==true) {
-							/*$.getScript("portal_javascripts/Fahrradstation%20Basis%20Theme/tiny_mce.js");
-							$.getScript("portal_javascripts/Fahrradstation%20Basis%20Theme/tiny_mce_init.js");
-							$.getScript("portal_javascripts/Fahrradstation%20Basis%20Theme/langs/de.js");
-							$.getScript("portal_javascripts/Fahrradstation%20Basis%20Theme/themes/advanced/editor_template.js")*/
-							//$('textarea.mce_editable').each(function() {
-								
-								//var config = new TinyMCEConfig($(this).attr('id'));
-								//config.init();
-    						//});
+							
+							//var g = $.get("");
+							//$(document).bind('loadInsideOverlay', function() {
+    						//	$('textarea.mce_editable').each(function() {
+        					//		var config = new TinyMCEConfig($(this).attr('id'));
+        					//		config.init();
+    						//	});
+							//});
 						}
 						
-
-
-						
+												
 						// enable buttons
 						save_button(view, s, c);
 						cancel_button(s);
@@ -314,7 +313,8 @@ if(jQuery) (function($) {
 						if (c['successCallback']) { c['successCallback'](s,d) };
 						unblock();
 					}
-				}); 
+				});
+			return true; 
 			};
 			
 			// check, if window with this selector is already open
@@ -346,3 +346,17 @@ if(jQuery) (function($) {
 	});
 	
 })(jQuery);
+
+jQuery(function($) {
+	// 
+	$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+  	_title: function(title) {
+  		if (!this.options.title) {
+  			title.html("&#160;");
+  		} else {
+  			title.html(this.options.title);
+  		}
+  	}
+  	}));
+  
+});
