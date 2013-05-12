@@ -234,14 +234,14 @@ if(jQuery) (function($) {
 								$ac.find('#plone-contentmenu-'+v).attr("id", s+"-plone-contentmenu-"+v);
 							});
 							
-							D.dialog("option","title", $ac);
+							D.dialog("option","title", '<span id="'+s+'-dialog-title">'+$ac.html()+'</span>');
 							
 							
 							// if we have actions (mostly we do), prepare the links to act 
 							// properly.
 							if ($ac.html()!=undefined) {
 								//console.log("has menu");
-								$("#ui-dialog-title-"+s+" a").each( function(i,a) {
+								$("#"+s+"-dialog-title a").each( function(i,a) {
 									$(a).unbind().bind("click", function(e) {
 										e.preventDefault();
 										var v = this.href.split("/").slice(-1)[0];
@@ -348,7 +348,7 @@ if(jQuery) (function($) {
 })(jQuery);
 
 jQuery(function($) {
-	// 
+	// http://stackoverflow.com/questions/14488774/using-html-in-a-dialogs-title-in-jquery-ui-1-10
 	$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
   	_title: function(title) {
   		if (!this.options.title) {
