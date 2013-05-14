@@ -27,6 +27,7 @@ setup(name='collective.js.jqueryuidialog',
           'setuptools',
           # -*- Extra requirements: -*-
           'collective.js.jqueryui',
+          'minify',
       ],
       entry_points="""
       # -*- Entry points: -*-
@@ -36,4 +37,8 @@ setup(name='collective.js.jqueryuidialog',
       """,
       setup_requires=["PasteScript"],
       paster_plugins=["ZopeSkel"],
+#      cmdclass={ 
+#	'minify_js':minify.command.minify_js,
+#	'minify_css':minify.command.minify_css
+#	},
       )
