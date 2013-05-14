@@ -179,10 +179,11 @@ if(jQuery) (function($) {
 									// close the dialog 
 									D.dialog("close");
 									// get the portal Message and display it in main window
-									var msg = dom.find("#portal_messages_container");
-									$('#portal_messages_container').append($(msg).html());
+									var msg = dom.find(".portalMessage");
+									console.log($(msg).html());
+									$('.portalMessage').replaceWith( $(msg).each(function(k,v) { $(v).html() }));
 									$.fn.delay( function() { 
-										$('#portal_messages_container dl.portalMessage').fadeOut() }, 3000
+										$('dl.portalMessage').fadeOut() }, 3000
 									);
 									return true;
 								}
