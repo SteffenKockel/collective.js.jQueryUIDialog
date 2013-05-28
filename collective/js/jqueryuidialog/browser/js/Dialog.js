@@ -147,12 +147,12 @@ if(jQuery) (function($) {
 
 			function load(url,view,s,c) {
 				block();
-				/* Debug*/ 
+				/* Debug 
 				console.log("context:",url);
 				console.log("view:",view);
 				console.log("selector", s);
 				console.log("config", c);
-				
+				*/
 				
 				// ajax (w/o menu!)
 				if (c['ajaxLoad']==true) { url = url+"?ajax_load="+(new Date()).getTime() }
@@ -180,7 +180,7 @@ if(jQuery) (function($) {
 									D.dialog("close");
 									// get the portal Message and display it in main window
 									var msg = dom.find(".portalMessage");
-									console.log($(msg).html());
+									//console.log($(msg).html());
 									$('.portalMessage').replaceWith( $(msg).each(function(k,v) { $(v).html() }));
 									$.fn.delay( function() { 
 										$('dl.portalMessage').fadeOut() }, 3000
@@ -197,8 +197,9 @@ if(jQuery) (function($) {
 									if ($.fn._dialog_configs[view]) { 
 										$.extend(c, $.fn._dialog_configs[view]); 
 									}
-									/* Debug */ 
-									console.log("context:",url); console.log("view:",view); console.log("selector", s); console.log("config", c);																	
+									/* Debug  
+									console.log("context:",url); console.log("view:",view); console.log("selector", s); console.log("config", c);
+									*/																	
 								} 
 							}														
 						}

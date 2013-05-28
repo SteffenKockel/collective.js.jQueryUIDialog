@@ -8,7 +8,8 @@ Installation
 
 You can simply clone the repo into a directory in the src folder of your buildout.
 
-`git clone git://github.com/SteffenKockel/collective.js.jQueryUIDialog.git collective.js.jqueruidialog`
+    cd /path/to/your/instance/zeocluster/src
+    git clone git://github.com/SteffenKockel/collective.js.jQueryUIDialog.git collective.js.jqueruidialog
 
 After that is done, add the extension under *buildout*, *zcml* and finally under *src* (see example syntax) to your `buildout.cfg`. 
 
@@ -22,8 +23,7 @@ To register a specific view, use a snippet like this in your JS file
 			"view": { 
 			tabs:false, 
 			modal:true, 
-		},
-		
+		},		
 			"edit": {
 			tabs:false,
 			modal:true,
