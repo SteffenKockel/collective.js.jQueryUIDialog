@@ -9,7 +9,7 @@ Installation
 You can simply clone the repo into a directory in the src folder of your buildout.
 
     cd /path/to/your/instance/zeocluster/src
-    git clone git://github.com/SteffenKockel/collective.js.jQueryUIDialog.git collective.js.jqueruidialog
+    git clone git://github.com/SteffenKockel/collective.js.jQueryUIDialog.git collective.js.jqueryuidialog
 
 After that is done, add the extension under *buildout*, *zcml* and finally under *src* (see example syntax) to your `buildout.cfg`. 
 
