@@ -83,30 +83,30 @@ if(jQuery) (function($) {
 			/* Get the view name from the last part of the url
 			 * if not explicitly specified by dialog call. 
 			 */
-			if (!view) {view = ctx.href.split("/").slice(-1)[0]}
+			if (!view) {view = ctx.href.split("/").slice(-1)[0];}
 			
 			// allow multiple add forms
 			if (!s) {
 				if (c["IdFromTimestamp"]==true) { 
-					s = (new Date).getTime() 
+					s = (new Date).getTime();
 				} else {
     				// get selector (id)
 					if (ctx.id) {
-						s = 'dialog-'+ctx.id 
+						s = 'dialog-'+ctx.id;
 						if (c["IdPlusTimestamp"]==true) {
-							s = s+"-"+(new Date).getTime()
+							s = s+"-"+(new Date).getTime();
 						}
 							
 					} else {
 						// This is weird and costly. Sometimes it fails to work.
 						// make shure, you work with ids on links 
-						s = 'dialog-'+ctx.href.split("/").slice(-2)[0] 
+						s = 'dialog-'+ctx.href.split("/").slice(-2)[0]; 
 					}
 				}
 			}
 			
 			// update config, if necessary
-			if ($.fn._dialog_configs[view]) { $.extend(c, $.fn._dialog_configs[view]) }
+			if ($.fn._dialog_configs[view]) { $.extend(c, $.fn._dialog_configs[view]);}
 			
     		/*
 			 * 
@@ -115,12 +115,12 @@ if(jQuery) (function($) {
 			 */
 			
 			function block() {				
-				$.fn.block_dialog(s)
+				$.fn.block_dialog(s);
 				return true;
 			};
 			
 			function unblock(){
-				$.fn.unblock_dialog(s)
+				$.fn.unblock_dialog(s);
 				return true;
 			};
 			
@@ -129,10 +129,31 @@ if(jQuery) (function($) {
 				$('#'+s+' [name="form.buttons.'+c["saveButton"]+'"]').unbind().bind("click", function(e){
 					e.preventDefault();
 					var $form = $('#'+s+' form');
+					if (c["noFormAction"]=="follow") {
+						// get the new viewname
+						view = c["nextViewAfterNoForm"];
+										
+						// get the new config
+				    	var nc = $.extend({}, $.fn._Dialog2_cfg);
+				    
+						if ($.fn._dialog_configs[view]) {
+							console.log("new_view", view); 
+							$.extend(nc, $.fn._dialog_configs[view]);
+						 
+						}
+						/* Debug */  
+						console.log("context:",url); 
+						console.log("view:",view); 
+						console.log("selector", s); 
+						console.log("config", nc);
+						console.log("_Dialog2_cfg",$.fn._Dialog2_cfg);
+						console.log("view_config",$.fn._dialog_configs[view]);
+																						
+					}
 					form = $form.serialize();
 					form += "&form.buttons."+c["saveButton"];
 					// reload save result
-					load($form.attr("action")+"?"+form, view, s, c);
+					load($form.attr("action")+"?"+form, view, s, nc);
 					});
 				return true;
 			};
@@ -146,6 +167,7 @@ if(jQuery) (function($) {
 			};
 
 			function load(url,view,s,c) {
+				// follow action
 				block();
 				/* Debug 
 				console.log("context:",url);
@@ -155,7 +177,7 @@ if(jQuery) (function($) {
 				*/
 				
 				// ajax (w/o menu!)
-				if (c['ajaxLoad']==true) { url = url+"?ajax_load="+(new Date()).getTime() }
+				if (c['ajaxLoad']==true) { url = url+"?ajax_load="+(new Date()).getTime(); }
 				
 				// non ajax
 				$.ajax({
@@ -167,12 +189,12 @@ if(jQuery) (function($) {
 						
 						// is this a noform situation
 						if (c["noForm"]!=false) {
-							// check for the form
 							var f = dom.find(c["noForm"]);
+							console.log("form",f);
 							// if no Form
 							if ($(f).length==0) {
 								// execute noFormCallback
-								if (c["noFormCallback"]){ c["noFormCallback"](s,d) }
+								if (c["noFormCallback"]){ c["noFormCallback"](s,d); }
 								
 								// close action
 								if (c["noFormAction"]=="close") {
@@ -181,26 +203,33 @@ if(jQuery) (function($) {
 									// get the portal Message and display it in main window
 									var msg = dom.find(".portalMessage");
 									//console.log($(msg).html());
-									$('.portalMessage').replaceWith( $(msg).each(function(k,v) { $(v).html() }));
+									$('.portalMessage').replaceWith( $(msg).each(function(k,v) { $(v).html(); }));
 									$.fn.delay( function() { 
-										$('dl.portalMessage').fadeOut() }, 3000
+										$('dl.portalMessage').fadeOut(); }, 3000
 									);
 									return true;
 								}
 								
-								// follow action
+								/* follow action
 								if (c["noFormAction"]=="follow") {
 									// get the new viewname
 									view = c["nextViewAfterNoForm"];
+									
 									// get the new config
-								    c = $.fn._Dialog2_cfg;
+								    $.extend(c, $.fn._Dialog2_cfg);
+								    
 									if ($.fn._dialog_configs[view]) { 
-										$.extend(c, $.fn._dialog_configs[view]); 
+										$.extend(c, $.fn._dialog_configs[view]);
+									 
 									}
-									/* Debug  
-									console.log("context:",url); console.log("view:",view); console.log("selector", s); console.log("config", c);
-									*/																	
+									Debug  
+									console.log("context:",url); 
+									console.log("view:",view); 
+									console.log("selector", s); 
+									console.log("config", c);
+																										
 								} 
+								*/
 							}														
 						}
 						
@@ -225,7 +254,7 @@ if(jQuery) (function($) {
 								if ($ac.find("#contentActionMenus").html()) {
 									$ac.find("#contentActionMenus").append(dac);	
 								} else {
-									$ac.find(".contentActions").append('<ul id="contentActionMenus">'+dac+'</ul>')
+									$ac.find(".contentActions").append('<ul id="contentActionMenus">'+dac+'</ul>');
 								}
 							} else {
 								$(dac).prepend($(cac).children());	
@@ -249,10 +278,10 @@ if(jQuery) (function($) {
 										var v = this.href.split("/").slice(-1)[0];
 										// if we have no custom configuration for this view,
 										// we take a fallback
-										if (!$.fn._dialog_configs[v]) { v = "view" }
-										var cc = $.fn._Dialog2_cfg;
+										if (!$.fn._dialog_configs[v]) { v = "view"; }
+										var cc = $.extend({},$.fn._Dialog2_cfg);
 										var vc = $.fn._dialog_configs[v];
-										if (vc) { $.extend(cc ,vc) } 									 
+										if (vc) { $.extend(cc ,vc); } 									 
 										load(this.href,v,s,cc);
 									});
 								});
@@ -290,7 +319,7 @@ if(jQuery) (function($) {
 						}
 						
 						// enable tabs
-						if (c["tabs"]==true) { D.ploneTabInit() }
+						if (c["tabs"]==true) { D.ploneTabInit(); }
 						
 						// enable calendar
 						//if (c["calendar"]=!false){ $.fn.dialog_calendar(s) }
@@ -312,7 +341,7 @@ if(jQuery) (function($) {
 						cancel_button(s);
 						
 						// success callback (onLoad)
-						if (c['successCallback']) { c['successCallback'](s,d) };
+						if (c['successCallback']) { c['successCallback'](s,d); };
 						unblock();
 					}
 				});
@@ -335,7 +364,7 @@ if(jQuery) (function($) {
 			$.extend(c, {
 				close: function(e,u) { 
 					$.fn._open_dialogs.splice( $.fn._open_dialogs.indexOf(s));
-					if (c["closeCallback"]){ c["closeCallback"](s) }
+					if (c["closeCallback"]){ c["closeCallback"](s); }
 					D.remove();
 				}
 			});
