@@ -74,44 +74,40 @@ if(jQuery) (function($) {
 			 * ctx = context   (mostly a link )
 			 * view = viewname (e.g.: "view" )
 			 * c = config	   (the dialog config for this view)	 
-			 * s = selector    (css is of the dialog )
+			 * s = selector    (css id of the dialog )
 			 * 
 			 */
 			var c = $.extend({}, $.fn._Dialog2_cfg);
 			var url = ctx.href;
 			
 			/* Get the view name from the last part of the url
-			 * if not explicitly specified by dialog call. 
-			 */
+			 * if not explicitly specified by dialog call. */
 			if (!view) {view = ctx.href.split("/").slice(-1)[0];}
 			
-			// allow multiple add forms
-			if (!s) {
-				if (c["IdFromTimestamp"]==true) { 
-					s = (new Date).getTime();
+			/* update config, if necessary */
+			if ($.fn._dialog_configs[view]) { $.extend(c, $.fn._dialog_configs[view]);}
+			
+			/* allow multiple add forms */
+			if (c["IdFromTimestamp"]==true) { 
+				s = (new Date).getTime();
+			} else {
+				/* get selector (id), if nothing is defined yet */  
+				if (!s && ctx.id) {
+					s = 'dialog-'+ctx.id;
 				} else {
-    				// get selector (id)
-					if (ctx.id) {
-						s = 'dialog-'+ctx.id;
-						if (c["IdPlusTimestamp"]==true) {
-							s = s+"-"+(new Date).getTime();
-						}
-							
-					} else {
-						// This is weird and costly. Sometimes it fails to work.
-						// make shure, you work with ids on links 
-						s = 'dialog-'+ctx.href.split("/").slice(-2)[0]; 
-					}
+					/* This is weird and costly. Sometimes it fails to work.
+					 * make shure, you work with ids on links. */ 
+					s = 'dialog-'+ctx.href.split("/").slice(-2)[0]; 
+				}
+				
+				if (c["IdPlusTimestamp"]==true) {
+						s += "-"+(new Date).getTime();
 				}
 			}
 			
-			// update config, if necessary
-			if ($.fn._dialog_configs[view]) { $.extend(c, $.fn._dialog_configs[view]);}
-			
+	
     		/*
-			 * 
-			 *  Dialog functions 
-			 * 
+			 *  Dialog functions  
 			 */
 			
 			function block() {				
@@ -130,7 +126,7 @@ if(jQuery) (function($) {
 					e.preventDefault();
 					
 					if (c==undefined){
-						// get the new config
+						/* get the new config */
 				    	var c = $.extend({}, $.fn._Dialog2_cfg, $.fn._dialog_configs[view]);
 					}
 					//console.log(view, s, c);
@@ -149,7 +145,7 @@ if(jQuery) (function($) {
 					console.log("view_config",$.fn._dialog_configs[view]);
 					 */
 					
-					// load save action result
+					/* load save action result */
 					load($form.attr("action")+"?"+form, view, s, c);
 					});
 				return true;
@@ -164,19 +160,20 @@ if(jQuery) (function($) {
 			};
 
 			function load(url,view,s,c) {
-				// follow action
 				block();
-				/* Debug */ 
+				
+				/* Debug  
 				console.log("context:",url);
 				console.log("view:",view);
 				console.log("selector", s);
 				console.log("config", c);
-				
-				
-				// ajax (w/o menu!)
+				*/
+					
+				/* ajax (keep in mind, that by default you will 
+				 * not get a menu from ajax loads !) */
 				if (c['ajaxLoad']==true) { url = url+"?ajax_load="+(new Date()).getTime(); }
 				
-				// non ajax
+				/* non ajax */
 				$.ajax({
 					url: url,
 					method: 'GET',
@@ -184,42 +181,43 @@ if(jQuery) (function($) {
 					success: function(d) {
 						var dom = $(d);
 						
-						// is this a noform situation
+						/* is this a noform situation? */
 						if (c["noForm"]!=false) {
 							var f = dom.find(c["noForm"]);
 							console.log("form",f);
-							// if no Form
+							/* if no Form */
 							if ($(f).length==0) {
-								// execute noFormCallback
+								/* execute noFormCallback */
 								if (c["noFormCallback"]){ c["noFormCallback"](s,d); }
 								
-								// close action
+								/* close action */
 								if (c["noFormAction"]=="close") {
-									// close the dialog 
+									/* close the dialog */ 
 									D.dialog("close");
-									// get the portal Message and display it in main window
+									/* get the portal Message and display it 
+									 * in main window, if present. */
 									var msg = dom.find(".portalMessage");
 									//console.log($(msg).html());
-									$('.portalMessage').replaceWith( $(msg).each(function(k,v) { $(v).html(); }));
+									$('.portalMessage').replaceWith( $(msg).each(
+										function(k,v) { $(v).html(); }));
 									$.fn.delay( function() { 
 										$('dl.portalMessage').fadeOut(); }, 3000
 									);
 									return true;
 								}
 								
-								// follow action
+								/* follow action */
 								if (c["noFormAction"]=="follow") {
-									// get the new viewname
+									/* get the new viewname */
 									view = c["nextViewAfterNoForm"];
-									
 									 
-									// get the new config
+									/* get the new config */
 								    $.extend(c, $.fn._Dialog2_cfg);
 								    
 									if ($.fn._dialog_configs[view]) { 
 										$.extend(c, $.fn._dialog_configs[view]);
-									 
 									}
+									
 									/* Debug */  
 									console.log("context:",url); 
 									console.log("view:",view); 
@@ -230,7 +228,7 @@ if(jQuery) (function($) {
 						}
 						
 						
-						
+						/* calculate/preserve the menu, if needed */
 						if (c["menu"]==true && c["preserveMenu"]==false) {		
 							var $ac = dom.find('div#edit-bar');
 							// properly formatted action menus
@@ -333,6 +331,11 @@ if(jQuery) (function($) {
 						
 												
 						// enable buttons
+						
+						// It seems to be impossible to use the config object (c) as
+						// argument for this? function. It will always be "undefined"
+						// in the save_button function. Luckely we can reconstruct it 
+						// there  
 						save_button(view, s, c);
 						cancel_button(s);
 						
