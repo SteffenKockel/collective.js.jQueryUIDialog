@@ -128,32 +128,29 @@ if(jQuery) (function($) {
 				//console.log(view, s, c);
 				$('#'+s+' [name="form.buttons.'+c["saveButton"]+'"]').unbind().bind("click", function(e){
 					e.preventDefault();
-					var $form = $('#'+s+' form');
-					if (c["noFormAction"]=="follow") {
-						// get the new viewname
-						view = c["nextViewAfterNoForm"];
-										
+					
+					if (c==undefined){
 						// get the new config
-				    	var nc = $.extend({}, $.fn._Dialog2_cfg);
-				    
-						if ($.fn._dialog_configs[view]) {
-							console.log("new_view", view); 
-							$.extend(nc, $.fn._dialog_configs[view]);
-						 
-						}
-						/* Debug */  
-						console.log("context:",url); 
-						console.log("view:",view); 
-						console.log("selector", s); 
-						console.log("config", nc);
-						console.log("_Dialog2_cfg",$.fn._Dialog2_cfg);
-						console.log("view_config",$.fn._dialog_configs[view]);
-																						
+				    	var c = $.extend({}, $.fn._Dialog2_cfg, $.fn._dialog_configs[view]);
 					}
-					form = $form.serialize();
+					//console.log(view, s, c);
+					
+					var $form = $('#'+s+' form');
+				
+					var form = $form.serialize();
 					form += "&form.buttons."+c["saveButton"];
-					// reload save result
-					load($form.attr("action")+"?"+form, view, s, nc);
+									
+					/* Debug  
+					console.log("context:",url); 
+					console.log("view:",view); 
+					console.log("selector", s); 
+					console.log("config", c);
+					console.log("_Dialog2_cfg",$.fn._Dialog2_cfg);
+					console.log("view_config",$.fn._dialog_configs[view]);
+					 */
+					
+					// load save action result
+					load($form.attr("action")+"?"+form, view, s, c);
 					});
 				return true;
 			};
@@ -169,12 +166,12 @@ if(jQuery) (function($) {
 			function load(url,view,s,c) {
 				// follow action
 				block();
-				/* Debug 
+				/* Debug */ 
 				console.log("context:",url);
 				console.log("view:",view);
 				console.log("selector", s);
 				console.log("config", c);
-				*/
+				
 				
 				// ajax (w/o menu!)
 				if (c['ajaxLoad']==true) { url = url+"?ajax_load="+(new Date()).getTime(); }
@@ -210,11 +207,12 @@ if(jQuery) (function($) {
 									return true;
 								}
 								
-								/* follow action
+								// follow action
 								if (c["noFormAction"]=="follow") {
 									// get the new viewname
 									view = c["nextViewAfterNoForm"];
 									
+									 
 									// get the new config
 								    $.extend(c, $.fn._Dialog2_cfg);
 								    
@@ -222,14 +220,12 @@ if(jQuery) (function($) {
 										$.extend(c, $.fn._dialog_configs[view]);
 									 
 									}
-									Debug  
+									/* Debug */  
 									console.log("context:",url); 
 									console.log("view:",view); 
 									console.log("selector", s); 
-									console.log("config", c);
-																										
+									console.log("config", c);														
 								} 
-								*/
 							}														
 						}
 						
