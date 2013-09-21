@@ -92,9 +92,12 @@ if(jQuery) (function($) {
 				s = (new Date).getTime();
 			} else {
 				/* get selector (id), if nothing is defined yet */  
+				
 				if (!s && ctx.id) {
 					s = 'dialog-'+ctx.id;
-				} else {
+				} 
+				
+				if (!s && !ctx.id) {
 					/* This is weird and costly. Sometimes it fails to work.
 					 * make shure, you work with ids on links. */ 
 					s = 'dialog-'+ctx.href.split("/").slice(-2)[0]; 
