@@ -34,6 +34,7 @@ if(jQuery) (function($) {
 			 	noFormAction:"follow",
 			 	successCallback: undefined,
 			 	cancelCallback: undefined,
+			 	onBeforeSave: undefined,
 			 	closeCallback: undefined,
 			 	noFormCallback: undefined,
 			 	nextViewAfterNoForm: "view",
@@ -132,7 +133,10 @@ if(jQuery) (function($) {
 						/* get the new config */
 				    	var c = $.extend({}, $.fn._Dialog2_cfg, $.fn._dialog_configs[view]);
 					}
-					//console.log(view, s, c);
+					console.log(view, s, c);
+					if (c["onBeforeSave"]!=undefined) {
+						c["onBeforeSave"]();
+					}
 					
 					var $form = $('#'+s+' form');
 				
@@ -147,6 +151,8 @@ if(jQuery) (function($) {
 					console.log("_Dialog2_cfg",$.fn._Dialog2_cfg);
 					console.log("view_config",$.fn._dialog_configs[view]);
 					 */
+					
+					
 					
 					/* load save action result */
 					load($form.attr("action")+"?"+form, view, s, c);
