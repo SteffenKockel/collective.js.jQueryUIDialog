@@ -154,8 +154,6 @@ if(jQuery) (function($) {
 					console.log("view_config",$.fn._dialog_configs[view]);
 					 */
 					
-					
-					
 					/* load save action result */
 					load($form.attr("action")+"?"+form, view, s, c);
 					});
@@ -320,7 +318,15 @@ if(jQuery) (function($) {
 						if (c['ajaxLoad']==true) { 
 							$("#"+s).empty().append(d); 
 						} else {
-							$("#"+s).html(dom.find('#content'));
+							/* Do we have portal message(s) ? */
+							var ct = dom.find('#content');
+							var m = dom.find('.portalMessage');
+							if (m.length>=1){
+								$(ct).prepend(m);
+							}	
+							$("#"+s).html(ct);
+							/* trigger an event to signal to other scripts*/
+							$(document.body).trigger("dialogContentReplaced");
 							/* 
 							 * The following magic is proudly stolen from
 							 * 
