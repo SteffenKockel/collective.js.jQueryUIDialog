@@ -34,6 +34,8 @@ if(jQuery) (function($) {
 			 	noFormAction:"follow",
 			 	successCallback: undefined,
 			 	cancelCallback: undefined,
+			 	cancelURL: undefined,
+			 	cancelAction: "follow", // or "close"
 			 	onBeforeSave: undefined,
 			 	closeCallback: undefined,
 			 	noFormCallback: undefined,
@@ -160,10 +162,25 @@ if(jQuery) (function($) {
 				return true;
 			};
 			
-			function cancel_button(s) {
+			function cancel_button(view,s,c) {
 				$('#'+s+' [name="form.buttons.'+c["cancelButton"]+'"]').unbind().bind("click", function(e) {
-				e.preventDefault();
-				D.dialog("close");
+				e.preventDefault();				
+				/*
+				 * Close the dialog in case we defined "close"
+				 * as cancel action
+				 */
+				if (c["cancelAction"] == "close") {
+					D.dialog("close");
+					return true;
+				}
+				/* Else, load the defined view config and try to
+				 * load the new view.
+				 */ 
+				var u = c["cancelURL"] || $('#'+s+' form').attr("action");
+				u += "?form.buttons."+c["cancelButton"];
+				var v = c["nextViewAfterCancel"];
+				
+				load(u,v, s, $.extend({},$.fn._Dialog2_cfg,$.fn._dialog_configs[view]));
 				});
 				return true;
 			};
@@ -346,7 +363,7 @@ if(jQuery) (function($) {
 						// in the save_button function. Luckely we can reconstruct it 
 						// there  
 						save_button(view, s, c);
-						cancel_button(s);
+						cancel_button(view,s, c);
 						
 						// success callback (onLoad)
 						if (c['successCallback']) { c['successCallback'](s,d); };
