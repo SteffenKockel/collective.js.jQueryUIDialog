@@ -303,7 +303,8 @@ if(jQuery) (function($) {
 										load(this.href,v,s,cc);
 									});
 								});
-								$.getScript("dropdown.js");
+								//$.getScript("dropdown.js");
+								jQuery(initializeMenus);
 							}
 						} else {
 						
