@@ -16,7 +16,7 @@ if(jQuery) (function($) {
 			 	// jQuery UI Dialog
 			 	modal: false,
 			 	closeOnEscape: true,
-			 	dialogClass: "rahmenbuch-dialog-window",
+			 	dialogClass: "dialog-window",
 			 	draggable: true,
 			 	resizable: false,
 			 	width: 600,
@@ -186,12 +186,12 @@ if(jQuery) (function($) {
 			function load(url,view,s,c) {
 				block();
 				
-				/* Debug  
+				/* Debug  */
 				console.log("context:",url);
 				console.log("view:",view);
 				console.log("selector", s);
 				console.log("config", c);
-				*/
+				
 					
 				/* ajax (keep in mind, that by default you will 
 				 * not get a menu from ajax loads !) */
