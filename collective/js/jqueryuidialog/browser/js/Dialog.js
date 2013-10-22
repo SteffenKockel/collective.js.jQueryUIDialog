@@ -16,7 +16,7 @@ if(jQuery) (function($) {
 			 	// jQuery UI Dialog
 			 	modal: false,
 			 	closeOnEscape: true,
-			 	dialogClass: "dialog-window",
+			 	dialogClass: "plone-dialog-window",
 			 	draggable: true,
 			 	resizable: false,
 			 	width: 600,
@@ -54,13 +54,6 @@ if(jQuery) (function($) {
 			 	cancelButton: 'cancel',
 		},
 		
-		block_dialog: function(s) {
-			// add loading animation				
-			$("div#"+s).animate({opacity:0});
-			$("div#"+s).wrap('<span class="loading" id="loading-'+s+'" />');
-			//$('span#loading-'+s).addClass("loading");
-			return true;
-		},
 		
 		unblock_dialog: function(s) {
 			// remove loading animation				
@@ -116,8 +109,16 @@ if(jQuery) (function($) {
 			 *  Dialog functions  
 			 */
 			
-			function block() {				
-				$.fn.block_dialog(s);
+			function block(quick) {				
+				var $s = $("div#"+s);
+				var o = $s.css("opacity");
+				console.log(o);
+				if (quick){
+					$s.css("opacity",0);
+				}	else {
+					$s.animate({opacity:0});
+				}
+				$("div#"+s).wrap('<span class="loading" id="loading-'+s+'" />');	
 				return true;
 			};
 			
@@ -128,7 +129,7 @@ if(jQuery) (function($) {
 			
 			function save_button(view, s, c) {
 				//console.log(view, s, c);
-				$('#'+s+' [name="form.buttons.'+c["saveButton"]+'"]').unbind().bind("click", function(e){
+				$('#'+s+' [name="'+c["saveButton"]+'"]').unbind().bind("click", function(e){
 					e.preventDefault();
 					
 					if (c==undefined){
@@ -143,7 +144,7 @@ if(jQuery) (function($) {
 					var $form = $('#'+s+' form');
 				
 					var form = $form.serialize();
-					form += "&form.buttons."+c["saveButton"];
+					form += "&"+c["saveButton"];
 									
 					/* Debug  
 					console.log("context:",url); 
@@ -183,8 +184,8 @@ if(jQuery) (function($) {
 				return true;
 			};
 
-			function load(url,view,s,c) {
-				block();
+			function load(url,view,s,c,quick) {
+				block(quick);
 				
 				/* Debug  */
 				console.log("context:",url);
@@ -401,9 +402,9 @@ if(jQuery) (function($) {
 				}
 			});
 			 			
-			D.append('<span id="loading-'+s+'" class="loading">');
+			D.append('<span id="loading-'+s+'">');
 			D.dialog(c);
-			load(url, view, s, c);
+			load(url, view, s, c, "quick_block");
 			
 		},
 	});

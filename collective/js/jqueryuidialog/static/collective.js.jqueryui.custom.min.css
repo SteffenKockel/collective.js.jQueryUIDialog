@@ -1,11 +1,3 @@
-.loading{
-	background:url('/++resource++collective.js.jqueryuidialog/loading.gif') 50% 50% no-repeat;
-	background-color: #ffffff;
-	min-height: 100px;
-	width: 100%;
-	display:block;
-	}
-
 /*! jQuery UI - v1.10.1 - 2013-03-06
 * http://jqueryui.com
 * Includes: jquery.ui.core.css, jquery.ui.resizable.css, jquery.ui.selectable.css, jquery.ui.accordion.css, jquery.ui.autocomplete.css, jquery.ui.button.css, jquery.ui.datepicker.css, jquery.ui.dialog.css, jquery.ui.menu.css, jquery.ui.progressbar.css, jquery.ui.slider.css, jquery.ui.spinner.css, jquery.ui.tabs.css, jquery.ui.tooltip.css
@@ -491,9 +483,6 @@ button.ui-button::-moz-focus-inner {
 	width: 90%;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	color: #DFDBD2;
-	font-size: 1.2em;
-	font-family:Ubuntu;
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;
@@ -817,8 +806,8 @@ body .ui-tooltip {
 	color: #444444;
 }
 .ui-widget-header {
-	border: 1px solid #4D4D4D;
-	background: #4D4D4D;
+	border: 1px solid #cccccc;
+	background: #dddddd url(images/ui-bg_flat_75_dddddd_40x100.png) 50% 50% repeat-x;
 	color: #444444;
 	font-weight: bold;
 }
@@ -831,10 +820,10 @@ body .ui-tooltip {
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid #DFDBD2;
-	background: #4D4D4D;
+	border: 1px solid #cccccc;
+	background: #205c90 url(images/ui-bg_flat_45_205c90_40x100.png) 50% 50% repeat-x;
 	font-weight: normal;
-	color: #DFDBD2;
+	color: #ffffff;
 }
 .ui-state-default a,
 .ui-state-default a:link,
@@ -848,8 +837,8 @@ body .ui-tooltip {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-	border: 1px solid #DFDBD2;
-	background: #D4D4D4;
+	border: 1px solid #448dae;
+	background: #4D4D4D;
 	font-weight: normal;
 	color: #DFDBD2;
 }
@@ -857,16 +846,16 @@ body .ui-tooltip {
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
 .ui-state-hover a:visited {
-	color: #DFDBD2;
+	color: #444444;
 	text-decoration: none;
 }
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #fff;
-	background: #D4D4D4;
+	border: 1px solid #cccccc;
+	background: #75ad0a url(images/ui-bg_flat_50_75ad0a_40x100.png) 50% 50% repeat-x;
 	font-weight: normal;
-	color: #DFDBD2;
+	color: #ffffff;
 }
 .ui-state-active a,
 .ui-state-active a:link,
