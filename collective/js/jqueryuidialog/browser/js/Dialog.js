@@ -56,7 +56,7 @@ if(jQuery) (function($) {
 		
 		block_dialog: function(s) {
 			// add loading animation				
-			$("div#"+s).animate({opacity:0});
+			$("div#"+s).css({opacity:0});
 			$("div#"+s).wrap('<span class="loading" id="loading-'+s+'" />');
 			//$('span#loading-'+s).addClass("loading");
 			return true;
